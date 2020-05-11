@@ -1,10 +1,7 @@
 <template>
   <div class="home">
-    <div class="title">
-      <h1>40 SEC STUDY REPORT</h1>
-    </div>
     <div class="timer">
-      {{time}}
+      TIME:{{time}}
     </div>
     <div class="input">
       <label for="input__title">TITLE</label>
@@ -87,15 +84,21 @@ export default {
 
 <style lang="scss" scoped>
 
+.timer{
+  font-size:30px;
+}
+
 
 .input{
+  font-size:20px;
+  margin:30px;
   display:flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   .input__title{
     border:1px solid #999999;
-    width:50%;
+    width:600px;
     margin:10px;
   }
   .input__start{
@@ -132,6 +135,9 @@ export default {
       right: 0;
     }
   }
+  .input__report{
+    width:600px;
+  }
 }
 
 .report{
@@ -146,6 +152,18 @@ export default {
     th, td{
       border: 1px black dotted;
     }
+  }
+}
+
+@media screen and (max-width:750px) {
+  .input__title{
+    max-width:80%;
+  }
+  .input__report{
+    max-width:80%;
+  }
+  .report__table{
+    max-width:80%;
   }
 }
 </style>

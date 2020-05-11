@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>40 SEC STUDY REPORT</h1>
     <div id="nav">
       <router-link to="/">Home</router-link> |      
       <router-link to="/about">How To Use</router-link>
