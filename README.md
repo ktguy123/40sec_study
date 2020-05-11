@@ -1,4 +1,5 @@
 # 40sec_study
+<<<<<<< HEAD
 
 ## Project setup
 ```
@@ -22,3 +23,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+40sec_study
+>>>>>>> origin/master
