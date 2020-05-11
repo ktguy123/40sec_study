@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="title">
-      40 SEC STUDY REPORT
+      <h1>40 SEC STUDY REPORT</h1>
     </div>
     <div class="timer">
       {{time}}
@@ -9,8 +9,8 @@
     <div class="input">
       <label for="input__title">TITLE</label>
       <input id="input__title" class="input__title" type="text" v-model="title">
-      <button class="input__start" @click="startRecord">START</button>
-      <textarea class="input__report" cols=50 rows=10 v-model="report"></textarea>
+      <div class="input__start" @click="startRecord">{{status}}</div>
+      <textarea @  class="input__report" cols=50 rows=10 v-model="report"></textarea>
     </div>
     <div class="report">
       <table class="report__table">
@@ -22,7 +22,7 @@
         </tr>
         <tr v-for="record in records" :key="record.id">
           <td>{{record.id}}</td>
-          <td>{{record.id}}</td>
+          <td>{{record.date}}</td>
           <td>{{record.title}}</td>
           <td>{{record.report}}</td>
         </tr>
@@ -38,6 +38,7 @@ export default {
   name: 'Home',
   data() {
     return {
+      status:"START",
       time:40,
       id:0,
       title:"",
@@ -48,21 +49,34 @@ export default {
   methods:{
     startRecord(){
       const that = this;
-      const sync = setInterval(function() {
-        that.time--;
-        if(that.time <= 0) {
-          clearInterval(sync);
-          that.recordContent();
-          that.time = 40;
-        }
-      }, 1000);
+      let sync;
+      if(this.status === "START"){
+        this.status = "STOP";
+        sync = setInterval(function() {
+          that.time--;
+          if(that.time <= 0) {
+            that.stopRecord(sync);
+            that.recordContent();
+            that.time = 40;
+          }
+        }, 1000);
+      }else{
+        this.status = "START";
+        this.stopRecord(sync);
+        that.time = 40;
+      }
+    },
+    stopRecord(sync) {
+      clearInterval(sync);
     },
     recordContent(){
       this.id++;
+      const d = new Date();
       this.records.unshift({
         id    :this.id,
         title :this.title,
-        report:this.report
+        report:this.report,
+        date:`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}`
       });
       this.title="";
       this.report="";
@@ -72,9 +86,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title{
-  font-size: 2rem;
-}
+
 
 .input{
   display:flex;
@@ -85,6 +97,40 @@ export default {
     border:1px solid #999999;
     width:50%;
     margin:10px;
+  }
+  .input__start{
+    cursor:pointer;
+    margin:10px;
+    display: inline-block;
+    position: relative;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    color: #000;
+    transition: .4s;
+    &:hover{
+      color:#ff7f7f;
+    }
+    &:before, &:after{
+      position: absolute;
+      top: 0;
+      content:'';
+      width: 8px;
+      height: 100%;
+      display: inline-block;
+    }
+    &:before{
+      border-left: solid 1px #ff7f7f;
+      border-top: solid 1px #ff7f7f;
+      border-bottom: solid 1px #ff7f7f;
+      left: 0;
+    }
+    &:after{
+      content: '';
+      border-top: solid 1px #ff7f7f;
+      border-right: solid 1px #ff7f7f;
+      border-bottom: solid 1px #ff7f7f;
+      right: 0;
+    }
   }
 }
 
